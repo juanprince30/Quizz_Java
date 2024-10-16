@@ -139,8 +139,17 @@ public class JoueurUI extends JFrame {
             }
 
             // Vérifier la réponse
-            if (selectedAnswer != null && selectedAnswer.equals(currentQuestion.ReponseCorrect)) {
-                score += currentQuestion.PointReponse;
+            if (selectedAnswer != null) {
+                if (selectedAnswer.equals(currentQuestion.ReponseCorrect)) {
+                    score += currentQuestion.PointReponse;
+                    // Afficher une alerte verte pour une bonne réponse
+                    JOptionPane.showMessageDialog(null, "Bonne réponse !\n"+currentQuestion.PointReponse+" Points", "Résultat", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    // Afficher une alerte rouge pour une mauvaise réponse
+                    JOptionPane.showMessageDialog(null, "Mauvaise réponse !\nLa réponse correcte est : " + currentQuestion.ReponseCorrect, "Résultat", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Veuillez sélectionner une réponse.", "Erreur", JOptionPane.ERROR_MESSAGE);
             }
 
             currentQuestionIndex++;
@@ -149,7 +158,7 @@ public class JoueurUI extends JFrame {
     }
 
     private void endQuiz() {
-        JOptionPane.showMessageDialog(this, "Quiz terminé !\nVotre score est : " + score);
+        JOptionPane.showMessageDialog(this, "Quiz terminé !\n"+ this.joueur.nom+" : "+ score+" Points");
         joueur.scoreTotal=joueur.scoreTotal + score;
         questionPanel.setVisible(false);
     }

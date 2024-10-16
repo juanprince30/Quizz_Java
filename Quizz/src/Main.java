@@ -18,8 +18,7 @@ public class Main {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                MainInterface mainInterface = new MainInterface();
-                mainInterface.setVisible(true);
+                new MainInterface().setVisible(true);
             }
         });
     }

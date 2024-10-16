@@ -6,16 +6,33 @@ import java.util.ArrayList;
 
 public class MainInterface extends JFrame {
 
+    private Image backgroundImage;
+
     public MainInterface() {
+        // Chargement de l'image d'arrière-plan
+        backgroundImage = new ImageIcon("one.jpg").getImage(); // Remplace par le chemin réel de ton image
+
         // Configuration de base du JFrame principal
         setTitle("Sélection d'Interface");
-        setSize(400, 200);
+        setSize(800, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new GridLayout(2, 1));
 
-        // Création des boutons
+        // Création du panneau personnalisé avec l'image en arrière-plan
+        JPanel mainPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(backgroundImage, 400, 200 , 500, 500, this); // Dessiner l'image à l'échelle
+            }
+        };
+        mainPanel.setLayout(null); // Utilisation d'un layout null pour placer les boutons manuellement
+
+        // Création des boutons avec des marges et positions spécifiques
         JButton btnAdmin = new JButton("Administrateur");
+        btnAdmin.setBounds(100, 50, 200, 50); // Position et taille du bouton Administrateur
+
         JButton btnJoueur = new JButton("Joueur");
+        btnJoueur.setBounds(100, 120, 200, 50); // Position et taille du bouton Joueur
 
         // Action pour le bouton Administrateur
         btnAdmin.addActionListener(new ActionListener() {
@@ -23,8 +40,17 @@ public class MainInterface extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // Créer un administrateur factice et ouvrir l'interface administrateur
                 Administrateur admin = new Administrateur("admin", 0, "password");
-                InterfaceAdministrateur adminUI = new InterfaceAdministrateur(admin);
-                new InterfaceAdministrateur(admin); // Ouvrir l'interface administrateur
+
+                ArrayList<Quizz> listQuizz = ramdomQuizz();
+                ArrayList<question> questions= new ArrayList<>();
+                for(Quizz quizz: listQuizz){
+                   for(String key:quizz.listQuestion.keySet()){
+                       questions.addAll(quizz.listQuestion.get(key));
+                   }
+                }
+                InterfaceAdministrateur interadmin =new InterfaceAdministrateur(admin); // Ouvrir l'interface administrateur
+                interadmin.setQuizzList(listQuizz);
+                interadmin.setQuestions(questions);
                 dispose(); // Fermer l'interface principale
             }
         });
@@ -34,6 +60,7 @@ public class MainInterface extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Demander le nom du joueur
+                setVisible(false);
                 String nomJoueur = JOptionPane.showInputDialog(null, "Entrez votre nom :", "Nom du Joueur", JOptionPane.QUESTION_MESSAGE);
 
                 if (nomJoueur != null && !nomJoueur.trim().isEmpty()) {
@@ -52,10 +79,14 @@ public class MainInterface extends JFrame {
             }
         });
 
-        // Ajout des boutons au JFrame principal
-        add(btnAdmin);
-        add(btnJoueur);
+        // Ajout des boutons au panneau principal
+        mainPanel.add(btnAdmin);
+        mainPanel.add(btnJoueur);
+
+        // Ajouter le panneau principal au JFrame
+        add(mainPanel);
     }
+
 
     public ArrayList<Quizz> ramdomQuizz(){
         Quizz quizz1 = new Quizz();

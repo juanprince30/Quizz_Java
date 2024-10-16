@@ -11,6 +11,14 @@ public class InterfaceAdministrateur {
     private ArrayList<question> questions;
     private ArrayList<Quizz> quizzList;
 
+    public void setQuestions(ArrayList<question> questions){
+        this.questions=questions;
+    }
+
+    public void setQuizzList(ArrayList<Quizz> quizzList) {
+        this.quizzList = quizzList;
+    }
+
     public InterfaceAdministrateur(Administrateur administrateur) {
         this.administrateur = administrateur;
         this.questions = new ArrayList<>();
@@ -21,8 +29,10 @@ public class InterfaceAdministrateur {
     private void initialize() {
         frame = new JFrame("Interface Administrateur");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 300);
+        frame.setSize(800, 500);
         frame.setLayout(new GridLayout(6, 1));
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
 
         JButton btnAjouterQuestion = new JButton("Ajouter une Question");
         JButton btnModifierQuestion = new JButton("Modifier une Question");
@@ -31,12 +41,21 @@ public class InterfaceAdministrateur {
         JButton btnModifierQuizz = new JButton("Modifier un Quizz");
         JButton btnSupprimerQuizz = new JButton("Supprimer un Quizz");
 
+        // Ajuster la taille des boutons
+        Dimension buttonSize = new Dimension(150, 50); // Largeur 150px, Hauteur 40px
+        btnAjouterQuestion.setPreferredSize(buttonSize);
+        btnModifierQuestion.setPreferredSize(buttonSize);
+        btnSupprimerQuestion.setPreferredSize(buttonSize);
+        btnAjouterQuizz.setPreferredSize(buttonSize);
+        btnModifierQuizz.setPreferredSize(buttonSize);
+        btnSupprimerQuizz.setPreferredSize(buttonSize);
+
         // Action pour ajouter une question
         btnAjouterQuestion.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFrame ajouterQuestionFrame = new JFrame("Ajouter une Question");
-                ajouterQuestionFrame.setSize(300, 400);
+                ajouterQuestionFrame.setSize(800, 500);
                 ajouterQuestionFrame.setLayout(new GridLayout(10, 1));
 
                 JTextField txtQuestion = new JTextField();
@@ -98,7 +117,7 @@ public class InterfaceAdministrateur {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFrame modifierQuestionFrame = new JFrame("Modifier une Question");
-                modifierQuestionFrame.setSize(300, 400);
+                modifierQuestionFrame.setSize(800, 500);
                 modifierQuestionFrame.setLayout(new GridLayout(10, 1));
 
                 JComboBox<question> questionComboBox = new JComboBox<>(questions.toArray(new question[0]));
@@ -180,7 +199,7 @@ public class InterfaceAdministrateur {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFrame supprimerQuestionFrame = new JFrame("Supprimer une Question");
-                supprimerQuestionFrame.setSize(300, 200);
+                supprimerQuestionFrame.setSize(800, 500);
                 supprimerQuestionFrame.setLayout(new GridLayout(2, 1));
 
                 JComboBox<question> questionComboBox = new JComboBox<>(questions.toArray(new question[0]));
@@ -212,7 +231,7 @@ public class InterfaceAdministrateur {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFrame ajouterQuizzFrame = new JFrame("Ajouter un Quizz");
-                ajouterQuizzFrame.setSize(300, 200);
+                ajouterQuizzFrame.setSize(800, 500);
                 ajouterQuizzFrame.setLayout(new GridLayout(3, 1));
 
                 JTextField txtTitreQuizz = new JTextField();
@@ -318,7 +337,7 @@ public class InterfaceAdministrateur {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFrame modifierQuizzFrame = new JFrame("Modifier un Quizz");
-                modifierQuizzFrame.setSize(300, 200);
+                modifierQuizzFrame.setSize(800, 500);
                 modifierQuizzFrame.setLayout(new GridLayout(3, 1));
 
                 JComboBox<Quizz> quizzComboBox = new JComboBox<>(quizzList.toArray(new Quizz[0]));
@@ -373,7 +392,7 @@ public class InterfaceAdministrateur {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFrame supprimerQuizzFrame = new JFrame("Supprimer un Quizz");
-                supprimerQuizzFrame.setSize(300, 200);
+                supprimerQuizzFrame.setSize(800, 500);
                 supprimerQuizzFrame.setLayout(new GridLayout(2, 1));
 
                 JComboBox<Quizz> quizzComboBox = new JComboBox<>(quizzList.toArray(new Quizz[0]));
@@ -405,6 +424,9 @@ public class InterfaceAdministrateur {
         frame.add(btnAjouterQuizz);
         frame.add(btnModifierQuizz);
         frame.add(btnSupprimerQuizz);
+
+        // Ajouter le panel de boutons au frame
+        frame.add(buttonPanel, BorderLayout.NORTH); // Ajouter le panel en haut
 
         frame.setVisible(true);
     }
